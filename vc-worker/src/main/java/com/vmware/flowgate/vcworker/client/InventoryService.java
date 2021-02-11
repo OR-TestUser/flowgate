@@ -95,7 +95,29 @@ public class InventoryService
         RetrieveResult retrieveResult = null;
         try
         {
-            retrieveResult = propertyCollector.retrievePropertiesEx( new FilterSpec[] { filterSpec }, retrieveOptions );
+            /* ********OpenRefactory Warning********
+			 Possible null pointer Dereference!
+			 Path: 
+				File: VCDataService.java, Line: 1112
+					Collection<HostSystem> hosts=vsphereClient.getAllHost();
+					 Information about field propertyCollector (from class VsphereClient) is passed through the method call. This later results into a null pointer dereference
+				File: VsphereClient.java, Line: 256
+					return getResourcesByType(HostSystem.class,VCConstants.HOSTSYSTEM);
+					 Information about field propertyCollector (from class VsphereClient) is passed through the method call. This later results into a null pointer dereference
+				File: VsphereClient.java, Line: 245
+					ManagedObjectReference[] crRef=InventoryService.getInstance().findAll(getPropertyCollector(),getContainerView(type),type);
+					 Information is passed through the method call via getPropertyCollector() to the formal param propertyCollector of the method. This later results into a null pointer dereference.
+				File: InventoryService.java, Line: 137
+					PropertyCollector propertyCollector
+					Variable propertyCollector is declared as a formal parameter.
+				File: InventoryService.java, Line: 140
+					List<ManagedObjectReference> targets=listByType(propertyCollector,containerView,typeName);
+					 Information is passed through the method call via propertyCollector to the formal param propertyCollector of the method. This later results into a null pointer dereference.
+				File: InventoryService.java, Line: 98
+					retrieveResult=propertyCollector.retrievePropertiesEx(new FilterSpec[]{filterSpec},retrieveOptions);
+					propertyCollector is referenced in method invocation.
+			*/
+			retrieveResult = propertyCollector.retrievePropertiesEx( new FilterSpec[] { filterSpec }, retrieveOptions );
         }
         catch ( InvalidProperty invalidProperty )
         {
