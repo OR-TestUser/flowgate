@@ -420,7 +420,23 @@ public class VCDataService implements AsyncService {
 
    private Map<Integer, String> getMetricsCounters(PerformanceManager performanceManager) {
 
-      CounterInfo[] counterInfos = performanceManager.getPerfCounter();
+      /* ********OpenRefactory Warning********
+	 Possible null pointer Dereference!
+	 Path: 
+		File: VCDataService.java, Line: 367
+			feedHostUsageData(vsphereClient,assetId,host._getRef());
+			 Information is passed through the method call via vsphereClient to the formal param vsphereClient of the method. This later results into a null pointer dereference. inside field performanceManager ( from class VsphereClient).
+		File: VCDataService.java, Line: 503
+			PerformanceManager performanceManager=vsphereClient.getPerformanceManager();
+			vsphereClient.getPerformanceManager() is used in initialization.
+		File: VCDataService.java, Line: 505
+			Map<Integer,String> counters=getMetricsCounters(performanceManager);
+			 Information is passed through the method call via performanceManager to the formal param performanceManager of the method. This later results into a null pointer dereference.
+		File: VCDataService.java, Line: 423
+			CounterInfo[] counterInfos=performanceManager.getPerfCounter();
+			performanceManager is referenced in method invocation.
+	*/
+	CounterInfo[] counterInfos = performanceManager.getPerfCounter();
 
       Map<Integer, String> counters = new HashMap<Integer, String>();
       for (int i = 0; i < counterInfos.length; i++) {
